@@ -21,7 +21,9 @@ is_skippable: false
 run_if: ""
 
 deps:
-  check_only:
+  brew:
+  - name: perl
+  apt_get:
   - name: perl
 
 toolkit:
