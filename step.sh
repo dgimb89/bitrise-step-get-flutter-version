@@ -42,6 +42,11 @@ else
     echo "Warning: No pubspec.lock file found at ${PUBSPEC_LOCK_PATH}!"
 fi
 
+if [[ -z "$EXTRACTED_FLUTTER_PUBSPEC_VERSION" ]]; then
+    echo "Error: No minimum Flutter version requirement was found!"
+    exit 2
+fi
+
 envman add --key FLUTTER_PUBSPEC_YAML_VERSION --value ${EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION}
 envman add --key FLUTTER_PUBSPEC_LOCK_VERSION --value ${EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION}
 envman add --key FLUTTER_PUBSPEC_VERSION --value ${EXTRACTED_FLUTTER_PUBSPEC_VERSION}
