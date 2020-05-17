@@ -1,6 +1,6 @@
 # Get Flutter version
 
-Extracts the Flutter version from pubspec.lock if presentt or pubspec.yml and sets `$FLUTTER_VERSION` environmental variable.
+Extracts the Flutter version from pubspec.lock (if present) or pubspec.yml and sets `$FLUTTER_VERSION` environmental variable.
 
 
 ## How to use this Step

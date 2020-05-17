@@ -1,22 +1,47 @@
 #!/bin/bash
-set -ex
+set -e
 
-echo "This is the value specified for the input 'example_step_input': ${example_step_input}"
+PUBSPEC_YAML_PATH="${project_location}/pubspec.yaml"
+PUBSPEC_LOCK_PATH="${project_location}/pubspec.lock"
 
-#
-# --- Export Environment Variables for other Steps:
-# You can export Environment Variables for other Steps with
-#  envman, which is automatically installed by `bitrise setup`.
-# A very simple example:
-envman add --key EXAMPLE_STEP_OUTPUT --value 'the value you want to share'
-# Envman can handle piped inputs, which is useful if the text you want to
-# share is complex and you don't want to deal with proper bash escaping:
-#  cat file_with_complex_input | envman add --KEY EXAMPLE_STEP_OUTPUT
-# You can find more usage examples on envman's GitHub page
-#  at: https://github.com/bitrise-io/envman
+if [[ ! -f ${PUBSPEC_YAML_PATH} ]]
+then
+	echo "No pubspec file found at path: ${PUBSPEC_YAML_PATH}"
+	exit 1
+fi
 
-#
-# --- Exit codes:
-# The exit code of your Step is very important. If you return
-#  with a 0 exit code `bitrise` will register your Step as "successful".
-# Any non zero exit code will be registered as "failed" by `bitrise`.
+# example pubspec.yaml:
+# ---
+# environment:
+#   sdk: ">=2.2.2 <3.0.0"
+#   flutter: ^1.17.1
+
+EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION=`perl -n -e '/flutter:\D*(\d+.\d+.\d+)/ && print $1' ${PUBSPEC_YAML_PATH}`
+if [[ ! -z "$EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION" ]]; then
+    echo "Found minimum Flutter version requirement in pubspec.yaml: ${EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION}"
+    EXTRACTED_FLUTTER_PUBSPEC_VERSION=${EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION}
+else
+    echo "Warning: No version requirement found in ${PUBSPEC_YAML_PATH}!"
+fi
+
+# example pubspec.lock:
+# ----
+# sdks:
+#   dart: ">=2.7.0 <3.0.0"
+#   flutter: ">=1.17.1 <2.0.0"
+
+if [[ -f ${PUBSPEC_LOCK_PATH} ]]; then
+    EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION=`perl -n -e '/flutter:\D*(\d+.\d+.\d+)/ && print $1' ${PUBSPEC_LOCK_PATH}`
+    if [[ ! -z "$EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION" ]]; then
+        echo "Found minimum Flutter version requirement in pubspec.lock: ${EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION}"
+        EXTRACTED_FLUTTER_PUBSPEC_VERSION=${EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION}
+    else
+        echo "Warning: No version requirement found in ${PUBSPEC_LOCK_PATH}!"
+    fi
+else
+    echo "Warning: No pubspec.lock file found at ${PUBSPEC_LOCK_PATH}!"
+fi
+
+envman add --key FLUTTER_PUBSPEC_YAML_VERSION --value ${EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION}
+envman add --key FLUTTER_PUBSPEC_LOCK_VERSION --value ${EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION}
+envman add --key FLUTTER_PUBSPEC_VERSION --value ${EXTRACTED_FLUTTER_PUBSPEC_VERSION}
