@@ -3,7 +3,7 @@ title: |-
 summary: |
   Extracts minimum required Flutter version from pubspec files
 description: |
-  Extracts the Flutter version from pubspec.lock (if present) or pubspec.yaml and sets `$FLUTTER_PUBSPEC_VERSION` environmental variable.
+  Extracts the Flutter version from *pubspec.lock* (if present) or *pubspec.yaml* and sets `$FLUTTER_PUBSPEC_VERSION` environment variable.
 website: https://github.com/dgimb89/bitrise-step-get-flutter-version
 source_code_url: https://github.com/dgimb89/bitrise-step-get-flutter-version
 support_url: https://github.com/dgimb89/bitrise-step-get-flutter-version/issues
@@ -31,11 +31,12 @@ toolkit:
     entry_file: step.sh
 
 inputs:
-  - project_location: "$BITRISE_SOURCE_DIR"
+  - project_location: $BITRISE_SOURCE_DIR
     opts:
-      title: "Project Location"
-      summary: "The root dir of your Flutter project."
-      description: "The root dir of your Flutter project that contains pubspec.yaml and optionally pubspec.lock."
+      title: Project Location
+      summary: The root dir of your Flutter project
+      description: |-
+        The root dir of your Flutter project that contains *pubspec.yaml* and optionally *pubspec.lock*.
       is_required: true
 
 outputs:
@@ -43,14 +44,14 @@ outputs:
     opts:
       title: Flutter version that is defined by pubspec
       description: |-
-        Minimum Flutter version requirement that is defined by pubspec at the *project location*: The version defined in pubspec.lock takes precendence over pubspec.yaml definition.
+        Minimum Flutter version requirement that is defined by pubspec at the **project location**: The version defined in *pubspec.lock* takes precendence over *pubspec.yaml* definition.
   - FLUTTER_PUBSPEC_YAML_VERSION:
     opts:
       title: Flutter version that is defined by pubspec
       description: |-
-        Minimum Flutter version requirement that is defined in pubspec.yaml file at the *project location*.
+        Minimum Flutter version requirement that is defined in *pubspec.yaml* file at the **project location**.
   - FLUTTER_PUBSPEC_LOCK_VERSION:
     opts:
       title: Flutter version that is defined by pubspec
       description: |-
-        Minimum Flutter version requirement that is defined in pubspec.lock file at the *project location*.
+        Minimum Flutter version requirement that is defined in *pubspec.lock* file at the **project location**.
