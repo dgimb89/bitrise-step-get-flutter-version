@@ -44,11 +44,11 @@ outputs:
         Minimum Flutter version requirement that is defined by pubspec at the **project location**: The version defined in *pubspec.lock* takes precendence over *pubspec.yaml* definition.
   - FLUTTER_PUBSPEC_YAML_VERSION:
     opts:
-      title: Flutter version that is defined by pubspec
+      title: Flutter version that is defined by pubspec.yaml
       description: |-
         Minimum Flutter version requirement that is defined in *pubspec.yaml* file at the **project location**.
   - FLUTTER_PUBSPEC_LOCK_VERSION:
     opts:
-      title: Flutter version that is defined by pubspec
+      title: Flutter version that is defined by pubspec.lock
       description: |-
         Minimum Flutter version requirement that is defined in *pubspec.lock* file at the **project location**.
