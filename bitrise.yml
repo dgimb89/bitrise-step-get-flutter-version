@@ -6,7 +6,6 @@ app:
   - BITRISE_STEP_ID: get-flutter-version
   - BITRISE_STEP_VERSION: "0.0.2"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/dgimb89/bitrise-step-get-flutter-version.git
-  - MY_STEPLIB_REPO_FORK_GIT_URL: https://github.com/dgimb89/bitrise-steplib.git
 
 workflows:
   test:
