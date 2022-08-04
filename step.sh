@@ -16,7 +16,7 @@ fi
 #   sdk: ">=2.2.2 <3.0.0"
 #   flutter: ^1.17.1
 
-EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION=`perl -n -e '/flutter:\D*(\d+.\d+.\d+)/ && print $1' ${PUBSPEC_YAML_PATH}`
+EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION=`perl -n -e '/flutter:\D*(\d+.\d+.\d+)(-\d+.\d+.pre)?/ && print "$1$2"' ${PUBSPEC_YAML_PATH}`
 if [[ ! -z "$EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION" ]]; then
     echo "Found minimum Flutter version requirement in pubspec.yaml: ${EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION}"
     EXTRACTED_FLUTTER_PUBSPEC_VERSION=${EXTRACTED_FLUTTER_PUBSPEC_YAML_VERSION}
@@ -31,7 +31,7 @@ fi
 #   flutter: ">=1.17.1 <2.0.0"
 
 if [[ -f ${PUBSPEC_LOCK_PATH} ]]; then
-    EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION=`perl -n -e '/flutter:\D*(\d+.\d+.\d+)/ && print $1' ${PUBSPEC_LOCK_PATH}`
+    EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION=`perl -n -e '/flutter:\D*(\d+.\d+.\d+)(-\d+.\d+.pre)?/ && print "$1$2"' ${PUBSPEC_LOCK_PATH}`
     if [[ ! -z "$EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION" ]]; then
         echo "Found minimum Flutter version requirement in pubspec.lock: ${EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION}"
         EXTRACTED_FLUTTER_PUBSPEC_VERSION=${EXTRACTED_FLUTTER_PUBSPEC_LOCK_VERSION}
